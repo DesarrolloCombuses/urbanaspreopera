@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Checklist Preoperacional aranjuez zamora</title>
+  <meta name="theme-color" content="#0b5cff" />
+  <style>
+    :root{ --ink:#0b1022; --muted:#6b7280; --bg:#f6f8fb; --brand:#0b5cff;
+      --card:#fff; --ring:#dbeafe; --shadow:0 10px 30px rgba(16,24,40,.10); --header-h:56px; }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);
+      background:linear-gradient(180deg,#f6f8fb,#eef2ff);}
+    .wrap{min-height:100dvh;display:flex;flex-direction:column;}
+    .topbar{height:var(--header-h);display:flex;align-items:center;justify-content:space-between;
+      padding:0 12px calc(env(safe-area-inset-bottom)/4) calc(env(safe-area-inset-left));
+      background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:3;}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700;}
+    .brand i{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:10px;
+      background:#eef2ff;color:#224bff;font-style:normal;}
+    .btn{appearance:none;border:1px solid #d1d5db;background:#fff;color:#111827;padding:8px 12px;
+      border-radius:10px;font-weight:600;cursor:pointer;}
+    .btn:active{transform:translateY(1px)}
+    .canvas{position:relative;flex:1;padding:12px;
+      padding-left:calc(12px + env(safe-area-inset-left));
+      padding-right:calc(12px + env(safe-area-inset-right));
+      padding-bottom:calc(12px + env(safe-area-inset-bottom));}
+    .card{height:calc(100dvh - var(--header-h) - 24px - env(safe-area-inset-bottom));
+      background:var(--card);border:1px solid #e5e7eb;border-radius:16px;box-shadow:var(--shadow);
+      overflow:hidden;position:relative;}
+    iframe{width:100%;height:100%;border:0;display:block;background:#fff;}
+    .loader{position:absolute;inset:0;display:grid;place-items:center;gap:14px;
+      background:linear-gradient(180deg,#ffffff,#fafbff);}
+    .ring{width:40px;height:40px;border-radius:50%;border:3px solid #dbeafe;border-top-color:#0b5cff;
+      animation:spin 1s linear infinite;}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .hint{color:var(--muted);font-size:.95rem;text-align:center;max-width:520px;padding:0 16px}
+    .msg{position:absolute;inset:auto 12px 12px 12px;z-index:4;background:#111827;color:#e5e7eb;
+      padding:10px 12px;border-radius:10px;box-shadow:var(--shadow);font-size:.9rem;display:none;}
+    @media (max-width:640px){.brand span{font-size:15px}.btn{padding:8px 10px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <div class="brand"><i>🚍</i><span>Checklist Preoperacional aranjuez zamora</span></div>
+      <button class="btn" id="btnRecargar">Recargar</button>
+    </header>
+
+    <main class="canvas">
+      <div class="card">
+        <div class="loader" id="loader">
+          <div class="ring" aria-hidden="true"></div>
+          <div class="hint">Cargando la aplicación…</div>
+        </div>
+        <iframe id="gsFrame"
+          title="Checklist Preoperacional"
+          allow="clipboard-write; fullscreen; geolocation; camera; microphone"
+          referrerpolicy="strict-origin-when-cross-origin">
+        </iframe>
+        <div class="msg" id="msg"></div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // 👉 URL de Apps Script (con clave, ver paso 2)
+    const APP_URL = "https://script.google.com/macros/s/AKfycbxZVNmHYCtyIRZpCgTIBMMEo2i9nVQZUJUCCWnDHfsPqQnX19LKzpS5pyVsm3BsptOBWw/exec?k=CAMBIA_ESTA_CLAVE";
+
+    const iframe = document.getElementById('gsFrame');
+    const loader = document.getElementById('loader');
+    const msg    = document.getElementById('msg');
+    const btnRecargar = document.getElementById('btnRecargar');
+
+    function cargar(){
+      loader.style.display = 'grid';
+      msg.style.display = 'none';
+      iframe.src = APP_URL;
+    }
+    btnRecargar.addEventListener('click', cargar);
+
+    iframe.addEventListener('load', () => { loader.style.display = 'none'; });
+
+    // Si en 8s no cargó, mostramos ayuda mínima (sin botón Abrir)
+    setTimeout(() => {
+      if (loader.style.display !== 'none') {
+        msg.textContent = "Si no carga, verifique conexión o permisos de la WebApp.";
+        msg.style.display = 'block';
+      }
+    }, 8000);
+
+    function fixHeight(){ document.documentElement.style.setProperty('--vh', window.innerHeight + 'px'); }
+    window.addEventListener('resize', fixHeight);
+    window.addEventListener('orientationchange', fixHeight);
+    fixHeight();
+
+    cargar();
+  </script>
+</body>
+</html>
